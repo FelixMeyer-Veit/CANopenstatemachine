@@ -18,12 +18,12 @@ Context::~Context()
     delete state_;
 }
 
-void Context::getobjects(Analog_in *Photocell, Analog_out *Led, Filter *filter, Timer *timer1)
+void Context::getobjects(Analog_in *Photocell, Analog_out *Led, Filter *filter, Timer *timer)
 {
     photocell_ptr = Photocell;
     led_ptr = Led;
     filter_ptr = filter;
-    timer1_ptr = timer1;
+    timer_ptr = timer;
 }
 
 void Context::transition_to(State *state)
@@ -73,4 +73,9 @@ void Context::command_operation()
 void Context::command_preoperation()
 {
     this->state_->on_command_preoperation();
+}
+
+void Context::command_stop()
+{
+    this->state_->on_command_stop();
 }

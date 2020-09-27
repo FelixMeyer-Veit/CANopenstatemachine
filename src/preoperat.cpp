@@ -1,29 +1,34 @@
 #include <preoperat.h>
 #include <init.h>
 #include <operat.h>
-
-
-
+#include <stop.h>
 
 void Preoperational_state::on_do()
 {
-    // Timer stuff as interrupt
-    delay(100);
+    // check if error occured
+    input_ph = this->context_->photocell_ptr->read(); 
+    filtered_input_ph = this->context_->filter_ptr->smooth(input_ph);
+
+    // 0 = short circuit and 255 = open circuit
+    if(filtered_input_ph == 0 || filtered_input_ph == 255) {
+        this->context_->last_was_operational = false;
+        this->context_->command_stop();
+    }
 }
 
 void Preoperational_state::on_entry()
 {
     Serial.println("Start Timer to toggle LED for 1Hz.");
-    this->context_->timer1_ptr->stop();
-    this->context_->timer1_ptr->start();
+    this->context_->timer_ptr->stop();
+    this->context_->timer_ptr->start(1);
     Serial.println("Configurate Operational Behavior by typing 'a', 'h' or 'l' for ambient, high or low mode.");
     Serial.println("Change to Operational_State by typing 'o'.");
 }
 
 void Preoperational_state::on_exit()
 {
-    Serial.println("Stop Timer");
-    this->context_->timer1_ptr->stop();
+    Serial.println("Stop Timer and preoperational state");
+    this->context_->timer_ptr->stop();
 }
   
 void Preoperational_state::on_command_reset() 
@@ -56,7 +61,8 @@ void Preoperational_state::on_command_operation()
     this->context_->transition_to(new Operational_state);  
 }
 
-void Preoperational_state::on_command_preoperation()
-{   
-  
+void Preoperational_state::on_command_stop()
+{
+    Serial.println("set state to stopped");
+    this->context_->transition_to(new Stopped_state); 
 }

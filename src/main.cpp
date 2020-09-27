@@ -11,20 +11,19 @@ Analog_out led(PORTD5);
 Analog_in photocell(PC0);
 Filter filter;
 Context *context;
-Timer timer1;
+Timer timer;
 
 // Application
 void setup()
 {
   Serial.begin(9600);
-
-  Serial.println("Setup of CANopen state machine"); 
+  
+  //Setup of CANopen state machine
   context = new Context(new Initialization_state);
 }
 
 ISR(TIMER1_COMPA_vect) {
 	led.toggle();
-  Serial.println("Timeout");
 }
 
 void loop()
@@ -33,7 +32,7 @@ void loop()
 
   delay(100);
 
-  context->getobjects(&photocell, &led, &filter, &timer1);
+  context->getobjects(&photocell, &led, &filter, &timer);
   context->do_work();
 
   if (Serial.available())
@@ -50,12 +49,5 @@ void loop()
   else if(command == 'o')
     context->command_operation();
   else if(command == 'p')
-    context->command_preoperation();    
+    context->command_preoperation();   
 }
-
-
-/*
-ISR(TIMER1_COMPB_vect) {
-	// Without this we get weird errors. The timer class defines isr's on both compare regs and if this is not defined then weird stuff happens on CMP B interrupts.
-}
-*/

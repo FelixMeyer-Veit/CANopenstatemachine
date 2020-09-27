@@ -18,9 +18,6 @@ public:
   void on_command_config_high() override;
   void on_command_config_low() override;
   void on_command_operation() override;
-  void on_command_preoperation() override;
-
-  // attributes
-  int input_ph = 0;
-  int filtered_input_ph = 0;
+  void on_command_preoperation() override {};
+  void on_command_stop() override;
 };

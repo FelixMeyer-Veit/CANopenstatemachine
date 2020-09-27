@@ -18,13 +18,10 @@ public:
   void on_entry() override;
   void on_exit() override; 
   void on_command_reset() override;
-  void on_command_config_ambient() override;
-  void on_command_config_high() override;
-  void on_command_config_low() override;
-  void on_command_operation() override;
+  void on_command_config_ambient() override {};
+  void on_command_config_high() override {};
+  void on_command_config_low() override {};
+  void on_command_operation() override {};
   void on_command_preoperation() override;
-
-  // attributes
-  int input_ph = 0;
-  int filtered_input_ph = 0;
+  void on_command_stop() override;
 };

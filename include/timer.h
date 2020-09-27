@@ -5,8 +5,10 @@ class Timer
 {
 public:
     Timer();
-    void start();
+    void start(int frequ);
     void stop();
+private:
+    int frequency;
 };
 
 #endif // TIMER_H

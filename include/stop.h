@@ -1,16 +1,8 @@
-#pragma once
-#include <Arduino.h>
-#include <state.h>
-#include <analog_in.h>
 #include <analog_out.h>
 #include <filter.h>
 #include <context.h>
 
-/**
- * Concrete States implement various behaviors, associated with a state of the
- * Context.
- */
-class Initialization_state : public State
+class Stopped_state : public State
 {
 public:
   void on_do() override;
@@ -21,6 +13,6 @@ public:
   void on_command_config_high() override {};
   void on_command_config_low() override {};
   void on_command_operation() override {};
-  void on_command_preoperation() override {}; 
+  void on_command_preoperation() override {};
   void on_command_stop() override {};
 };

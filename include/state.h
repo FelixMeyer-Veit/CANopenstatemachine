@@ -35,4 +35,9 @@ public:
   virtual void on_command_config_low() = 0;
   virtual void on_command_operation() = 0;
   virtual void on_command_preoperation() = 0;
+  virtual void on_command_stop() = 0;
+
+  // attributes
+  int input_ph = 0;
+  int filtered_input_ph = 0;
 };

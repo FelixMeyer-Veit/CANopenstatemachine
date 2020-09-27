@@ -1,7 +1,5 @@
 #include <filter.h>
 
-
-
 void Filter::init() {
     numReadings = 10;
     readIndex = 0;
@@ -30,7 +28,7 @@ int Filter::smooth(int value) {
     // calculate the average:
     average = total / numReadings;
     // send it to the computer as ASCII digits
-    Serial.println( average, DEC);
+    //Serial.println( average, DEC);
     delay(5);
 
     return average;

@@ -36,23 +36,3 @@ void Analog_out::toggle() {
 		this->set_lo();
 	}
 }
-
-
-
-/*
-// Turn the light on
-void Analog_out::set_hi() {
-    PORTD |= pinMask;
-}
-
-// Turn the light off
-void Analog_out::set_lo() {
-    PORTD &= ~pinMask;
-}
-
-// Turn the light on/off
-void Analog_out::toggle() {
-    PORTD ^= pinMask;
-	delay(TIME);
-}
-*/
