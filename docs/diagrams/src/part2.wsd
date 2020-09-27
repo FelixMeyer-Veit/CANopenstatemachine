@@ -1,0 +1,34 @@
+@startuml CANopen state machine - Part2
+[*]-->State_Initialization
+
+State_Initialization: entry / start initialization
+State_Initialization: do / initialize LED
+State_Initialization: do / initialize Photocell
+State_Initialization: do / initialize Filter
+State_Initialization: exit / end initialization
+State_Initialization->State_PreOperational : autonomously
+
+State_PreOperational : entry / start preoperational state and timer
+State_PreOperational : do / change config parameters which influence the beavior of the operational state after receiving config_commands
+State_PreOperational : do / LED blinks at 1Hz
+State_PreOperational : exit / end preopoerational state and timer
+State_PreOperational->State_Initialization: reset_command
+State_PreOperational->State_PreOperational: config_command 'a' / mode = ambient
+State_PreOperational->State_PreOperational: config_command 'h' / mode = high
+State_PreOperational->State_PreOperational: config_command 'l' / mode = low
+State_PreOperational->State_PreOperational: timeout / toggle LED
+State_PreOperational->State_Operational: operational_command
+
+State_Operational : entry / activate normal input-output behavior
+State_Operational : if / mode == ambient
+State_Operational : do / read input of photocell
+State_Operational : do / filter input of photocell
+State_Operational : do / set value of the LED according to the filtered input
+State_Operational : if / mode == high
+State_Operational : do / set LED high
+State_Operational : if / mode == low
+State_Operational : do / set LED low
+State_Operational : exit / deactivate normal input-output behavior
+State_Operational ->State_PreOperational: preoperational_command
+State_Operational ->State_Initialization: reset_command
+@enduml
